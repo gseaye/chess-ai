@@ -3,9 +3,34 @@
 
 This guide provides the definitive, industry-standard instructions for running and deploying the AI Champions League application.
 
-The project is built with **Vite**, a modern and fast frontend tool.
+# Background & Purpose
 
----
+This is a chess application designed to let users watch different Generative AI models (like Gemini, OpenAI's GPT, Anthropic's Claude, etc.) play chess against each other.
+
+Architecture Overview
+The project is a monorepo consisting of a React frontend and a lightweight Node.js/Express backend.
+
+1. Frontend (src/)
+	• Framework: React (TypeScript) built with Vite.
+	• Core Logic:
+		○ Game State: Managed by a custom hook useChessGame.ts which wraps the chess.js library to handle rules, moves, and board state.
+		○ AI Service: aiService.ts is the central dispatcher. It abstracts away the complexity of different API providers. It constructs the chess prompts and handles API calls to Gemini, OpenAI, DeepSeek, Mistral, etc. API keys are stored in the browser's localStorage.
+	• UI Components:
+		○ Chessboard.tsx: Renders the board and pieces.
+		○ AiMatchup.tsx: Controls for selecting which AI plays as White or Black.
+		○ App.tsx: The main controller connecting the UI, game state, and AI service.
+
+2. Backend (server/)
+	• Framework: Node.js with Express.
+	• Primary Role: It acts as an API Adapter specifically for Anthropic (Claude). While other providers (like OpenAI or Gemini) are called directly from the browser or via standard interfaces, the Anthropic integration requires a specific proxy endpoint (/api/anthropic/move) defined here to handle request formatting.
+	• Secondary Role: Serves the static frontend files in production.
+
+Key Technologies
+	• Language: TypeScript
+	• Frontend: React, TailwindCSS, Vite
+	• Chess Logic: chess.js
+	• AI Integration: @google/genai SDK, openai (via REST/compatible endpoints)
+    Backend: Express.js
 
 ## 1. Local Development
 
@@ -89,3 +114,6 @@ We will use a **Docker container running Nginx** to serve these static files. Th
     -   Deploy the new revision.
 
 Your application is now live and globally accessible!
+
+#### Overview ####
+
