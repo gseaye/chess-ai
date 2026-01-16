@@ -1,0 +1,5 @@
+
+{
+  "name": "AI Champions League",
+  "description": "A chess application where two configurable AI models can play against each other. Features a UI panel to configure API keys for Gemini, OpenAI, and Anthropic models. Trigger each move and watch the strategic battle unfold."
+}
